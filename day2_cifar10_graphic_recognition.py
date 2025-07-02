@@ -60,12 +60,12 @@ import torch.nn as nn
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
-        self.conv1=nn.Conv2d(3,32,kernel_size=3)
-        self.conv2=nn.Conv2d(32,64,kernel_size=3)
-        self.conv3=nn.Conv2d(64,64,kernel_size=3)
+        self.conv1=nn.Conv2d(3,32,kernel_size=3,padding=1)
+        self.conv2=nn.Conv2d(32,64,kernel_size=3,padding=1)
+        self.conv3=nn.Conv2d(64,128,kernel_size=3,padding=1)
         self.pool=nn.MaxPool2d(kernel_size=2,stride=2)
-        self.fc1=nn.Linear(64*4*4,64)
-        self.fc2=nn.Linear(64,10)
+        self.fc1=nn.Linear(128*8*8,128)
+        self.fc2=nn.Linear(128,10)
         self.relu=nn.ReLU()
         self.flatten=nn.Flatten()
 
@@ -113,7 +113,7 @@ def train_epoch(model, train_loader, optimizer, loss_fn, accuracy_metric,device)
     return (running_loss / len(train_loader.dataset),
             running_acc / len(train_loader.dataset))
 
-num_epochs = 15
+num_epochs = 12
 for epoch in range(num_epochs):
     train_loss, train_acc = train_epoch(model, train_loader, optimizer, loss_fn, accuracy_metric, device)
     print(f"Epoch {epoch+1}/{num_epochs}:")
